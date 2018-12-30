@@ -12,7 +12,7 @@ mkdir -p $DIR
 for px in $PXS
 do
   pxlogs=`echo $LOGS | sed -e 's/ /\n/g' | egrep $px`
-  if [[ $px == incvprx001 ]]; then
+  if [[ $px == proxy-001 ]]; then
     lines=`zcat $pxlogs | egrep -v '^#' | egrep -v $MONS | egrep -v $PROXIES | awk '{ ip[$4]++} END {for (i in ip) print ip[i]," ", i}' | fgrep -v - |\
         sort -nr | tee $DIR/$px.ip | wc -l`
     mkdir $DIR/$px
@@ -27,7 +27,7 @@ do
     lines=`zcat $pxlogs | egrep -v '^#' | egrep -v $MONS | awk '{ ip[$1]++} END {for (i in ip) print ip[i]," ", i}' | fgrep -v - |\
         sort -nr | tee $DIR/$px.ip | wc -l`
     mkdir $DIR/$px
- 	if [[ $px == idjaprx002 ]]; then   
+ 	if [[ $px == proxy-002 ]]; then   
 		for ip in `awk '{print $2}' $DIR/$px.ip`
 		do
 			zcat $pxlogs | fgrep $ip | awk '{ a=  $2 " " $9; ip[a]++} END {for (i in ip) print ip[i]," ", i}' | sort -nr > $DIR/$px/$ip
